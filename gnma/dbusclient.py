@@ -1,5 +1,6 @@
 import argparse
 import json
+import sys
 
 import dbus
 import gi  # type:ignore
@@ -104,3 +105,18 @@ class DBUSClient:
                 raise excp
             return ""
         return doc
+
+
+def main():
+    db_client = DBUSClient()
+    db_client.verbose = True
+    if not db_client.start_dbus_interface():
+        return
+    ret = db_client.get_event_json()
+    if ret:
+        print(ret)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())  # pragma: no cover
