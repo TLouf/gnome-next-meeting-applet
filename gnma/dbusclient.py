@@ -12,7 +12,7 @@ from gnma import dbusservice
 
 
 class DBUSClient:
-    verbose: bool
+    verbose: bool = False
     dbus_intf: dbus.Interface
 
     def start_dbus_interface(self) -> bool:
