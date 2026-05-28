@@ -3,8 +3,9 @@ import datetime
 import logging
 import pathlib
 import re
-import dbus.exceptions
+import sys
 
+import dbus.exceptions
 import gi  # type:ignore
 import yaml
 
@@ -26,14 +27,11 @@ except ImportError:
 
 # pylint: disable=E0611 disable=C0411
 from gi.repository import EDataServer
-from gi.repository import Gtk as gtk
 from gi.repository import GLib as glib
+from gi.repository import Gtk as gtk
 
-from gnma import config
+from gnma import config, dbusservice, icons, strings
 from gnma import gnome_online_account_cal as goacal
-from gnma import strings
-from gnma import dbusservice
-from gnma import icons
 
 APP_INDICTOR_ID = "gnome-next-meeting-applet"
 
@@ -95,12 +93,6 @@ class Applet(goacal.GnomeOnlineAccountCal):
             ):
                 del self.all_events[event.uid]
                 logging.debug("[SKIP] non today event: %s", event.summary)
-                continue
-            if (
-                self.config["skip_non_confirmed"]
-                and event.comp.get_status().value_name != "I_CAL_STATUS_CONFIRMED"
-            ):
-                logging.debug("[SKIP] non confirmed event")
                 continue
             if self.config["skip_all_day"] and event.all_day:
                 logging.debug("[SKIP] all day event")
@@ -417,11 +409,7 @@ def auto_open_intime(config, event) -> bool:
         return False
     # pylint: disable=C0113,R1705
     if (
-        now
-        > (
-            event.start_dttime
-            - datetime.timedelta(minutes=autoconfig)
-        )
+        now > (event.start_dttime - datetime.timedelta(minutes=autoconfig))
         and not now > event.start_dttime
     ):
         return True
