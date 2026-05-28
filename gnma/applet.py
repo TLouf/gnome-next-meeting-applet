@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import argparse
 import datetime
 import logging
 import pathlib
@@ -415,5 +416,20 @@ def auto_open_intime(config, event) -> bool:
         return True
     return False
 
+
 def run(args):
     Applet(args).run()
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Gnome next meeting applet")
+    parser.add_argument(
+        "--verbose", "-v", dest="verbose", action="store_true", help="verbose"
+    )
+    args = parser.parse_args()
+    run(args)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())  # pragma: no cover
