@@ -9,7 +9,7 @@ from gnma import types
 gi.require_version("ECal", "2.0")
 gi.require_version("EDataServer", "1.2")
 gi.require_version("Gio", "2.0")
-gi.require_version("ICal", "3.0")
+gi.require_version("ICalGLib", "4.0")
 gi.require_version("GLib", "2.0")
 # pylint: disable=C0411,E0611
 from gi.repository import ECal, EDataServer, Gio, GLib, ICalGLib
