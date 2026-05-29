@@ -4,7 +4,7 @@ import logging
 
 import gi  # type:ignore
 
-from gnma import types
+from gnma import cal_types
 
 gi.require_version("ECal", "2.0")
 gi.require_version("EDataServer", "1.2")
@@ -77,7 +77,7 @@ class GnomeOnlineAccountCal:
             client = ECal.Client.connect_finish(res)
             client.set_default_timezone(self.zone)
 
-            calendar = types.CalendarInfo(source, client)
+            calendar = cal_types.CalendarInfo(source, client)
             self.calendars[source.get_uid()] = calendar
 
             # self.interface.set_property("has-calendars", True)
@@ -186,7 +186,7 @@ class GnomeOnlineAccountCal:
 
         uid = self.create_uid(calendar, comp)
         if uid not in self.all_events:
-            self.all_events[uid] = types.Event(
+            self.all_events[uid] = cal_types.Event(
                 uid,
                 calendar.color,
                 summary,
@@ -270,7 +270,7 @@ class GnomeOnlineAccountCal:
                 end_dttime = datetime.datetime.fromtimestamp(end_timet)
                 mod_dttime = datetime.datetime.fromtimestamp(mod_timet)
 
-                self.all_events[uid] = types.Event(
+                self.all_events[uid] = cal_types.Event(
                     uid,
                     calendar.color,
                     summary,
